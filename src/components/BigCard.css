@@ -1,0 +1,33 @@
+.bigCard {
+    width: 1162px;
+    height: 755px;
+    background-color: aqua;
+    border-radius: 15px;
+}
+
+.inp {
+    height: 57px;
+    width: 460px;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 32px;
+    margin-left: 5px;
+}
+
+.btn {
+    margin-left: 20px;
+    height: 57px;
+    width: 57px;
+    border-radius: 50px;
+}
+
+.searchRow {
+    padding-top: 57px;
+    padding-left: 66px;
+    /* background-color: blueviolet; */
+}
+
+.innerCont {
+    padding-left: 61px;
+    padding-right: 61px;
+}
