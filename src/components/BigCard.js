@@ -5,7 +5,7 @@ import TodayCard from './TodayCard';
 import WeekCard from './WeekCard';
 import { prod, dev } from '../api/environment';
 import { stateAbbr } from '../api/states';
-import { MagnifyingGlass, List } from "@phosphor-icons/react";
+import { MagnifyingGlass, List, Star } from "@phosphor-icons/react";
 
 export default function BigCard() {
 
@@ -216,9 +216,10 @@ export default function BigCard() {
             <div className='nowBox'>
             <Row>
               <Col md={6} lg={12}>
-                <div className='d-flex'>
+                <div className='d-flex topNowBox'>
                   <img className='bigImg align-self-start' src={require(`../assets/${(weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear')}.png`)} alt='Depicts current weather' />
                   <p className='bigTemp'>{weatherNowData !== null ? Math.round(weatherNowData.main.temp) : '--'}°</p>
+                  <Star className="star" color="#ffd400" weight="bold" />
                 </div>
               
               </Col>
