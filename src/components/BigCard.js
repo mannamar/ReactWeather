@@ -19,21 +19,49 @@ export default function BigCard() {
   const [name, setName] = useState();
   const [state, setState] = useState();
 
-  const [input, setInput] = useState();
+  const [input, setInput] = useState('');
   // const [searchTerm, setSearchTerm] = useState();
 
   function ChooseLocation(data) {
     // console.log(data);
     // data = data[0];
+    let newChosenCity = data[0];
     for (let i = 0; i < data.length; i++) {
-        console.log(data[i].country)
-        if (data[i].country === 'US') {
-            // console.log(data[i]);
-            setChosenCityData(data[i]);
-            break;
-        }
+      console.log(data[i].country)
+      if (data[i].country === 'US') {
+        // console.log(data[i]);
+        newChosenCity = data[i];
+        break;
+      }
     }
-}
+    setChosenCityData(newChosenCity);
+  }
+
+  function SetDisplayNameVariables() {
+    let newName;
+    let newState;
+    if (chosenCityData.local_names && chosenCityData.local_names.en) {
+      newName = chosenCityData.local_names.en;
+    } else {
+      newName = chosenCityData.name;
+    }
+    if (chosenCityData.country === 'US' && chosenCityData.state) {
+      newState = chosenCityData.state;
+    } else {
+      newState = chosenCityData.country;
+    }
+    setName(newName);
+    setState(newState);
+  }
+
+  async function GetNowData() {
+    let weatherNowApi = `https://api.openweathermap.org/data/2.5/weather?lat=${chosenCityData.lat}&lon=${chosenCityData.lon}&appid=${apiKey}&units=imperial`;
+    let response = await fetch(weatherNowApi);
+    let data = await response.json();
+    let newWND = data;
+    console.log(newWND);
+    setWeatherNowData(newWND);
+  }
 
   async function SearchForLocation(cityName, stateCode = '', countryCode = '', limit = 3) {
     let geocodingApi = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&limit=${limit}&appid=${apiKey}`;
@@ -118,45 +146,10 @@ export default function BigCard() {
   }, [geoLat]);
 
   useEffect(() => {
-
-    function SetDisplayNameVariables() {
-      let newName;
-      let newState;
-      if (chosenCityData.local_names && chosenCityData.local_names.en) {
-        newName = chosenCityData.local_names.en;
-      } else {
-        newName = chosenCityData.name;
-      }
-      if (chosenCityData.country === 'US' && chosenCityData.state) {
-        newState = chosenCityData.state;
-      } else {
-        newState = chosenCityData.country;
-      }
-      setName(newName);
-      setState(newState);
-    }
-
-    async function GetNowData() {
-      let weatherNowApi = `https://api.openweathermap.org/data/2.5/weather?lat=${weathLat}&lon=${weathLon}&appid=${apiKey}&units=imperial`;
-      let response = await fetch(weatherNowApi);
-      let data = await response.json();
-      let newWND = data;
-      console.log(newWND);
-      setWeatherNowData(newWND);
-    }
-
-    if (weathLat !== null) {
-      console.log('Looking up weather');
-      SetDisplayNameVariables();
-      GetNowData();
-    }
-
-
-  }, [weathLat]);
-
-  useEffect(() => {
     if (chosenCityData !== null) {
       console.log(chosenCityData);
+      SetDisplayNameVariables();
+      GetNowData();
     }
   }, [chosenCityData]);
 
