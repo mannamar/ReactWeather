@@ -240,11 +240,11 @@ export default function BigCard() {
         </Row>
         <Row>
           <div className='weekRow d-flex justify-content-between'>
-            <WeekCard title='MON' num={0} high={parsedFWD !== null ? Math.round(parsedFWD[dOWO[0]].max) : '--'}/>
-            <WeekCard title='TUE' />
-            <WeekCard title='WED' />
-            <WeekCard title='THU' />
-            <WeekCard title='FRI' />
+            <WeekCard title='MON' num={0} data={parsedFWD} array={dOWO}/>
+            <WeekCard title='TUE' num={1} data={parsedFWD} array={dOWO}/>
+            <WeekCard title='WED' num={2} data={parsedFWD} array={dOWO}/>
+            <WeekCard title='THU' num={3} data={parsedFWD} array={dOWO}/>
+            <WeekCard title='FRI' num={4} data={parsedFWD} array={dOWO}/>
           </div>
         </Row>
       </Container>
