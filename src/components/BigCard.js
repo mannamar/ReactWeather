@@ -14,15 +14,48 @@ export default function BigCard() {
   const [geoLon, setGeoLon] = useState(-121.2907796);
   const [weathLat, setWeathLat] = useState(null);
   const [weathLon, setWeathLon] = useState(-121.2907796);
-  const [chosenCityData, setChosenCityData] = useState();
+  const [chosenCityData, setChosenCityData] = useState(null);
   const [weatherNowData, setWeatherNowData] = useState(null);
   const [name, setName] = useState();
   const [state, setState] = useState();
 
-  const [searchTerm, setSearchTerm] = useState();
+  const [input, setInput] = useState();
+  // const [searchTerm, setSearchTerm] = useState();
 
-  function handleClick() {
+  function ChooseLocation(data) {
+    // console.log(data);
+    // data = data[0];
+    for (let i = 0; i < data.length; i++) {
+        console.log(data[i].country)
+        if (data[i].country === 'US') {
+            // console.log(data[i]);
+            setChosenCityData(data[i]);
+            break;
+        }
+    }
+}
 
+  async function SearchForLocation(cityName, stateCode = '', countryCode = '', limit = 3) {
+    let geocodingApi = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&limit=${limit}&appid=${apiKey}`;
+    const response = await fetch(geocodingApi);
+    const data = await response.json();
+    console.log(data);
+    ChooseLocation(data);
+  }
+
+  const handleKeyDown = async (event) => {
+    if (event.key === 'Enter') {
+      // setResponse( await GetHello(name) );
+      let inputSplit = input.split(',');
+      console.log(inputSplit);
+      setInput('');
+
+      if (inputSplit.length === 1) {
+        await SearchForLocation(inputSplit[0]);
+      } else {
+        await SearchForLocation(inputSplit[0], inputSplit[1]);
+      }
+    }
   }
 
   // At page load
@@ -85,7 +118,7 @@ export default function BigCard() {
   }, [geoLat]);
 
   useEffect(() => {
-    
+
     function SetDisplayNameVariables() {
       let newName;
       let newState;
@@ -111,7 +144,7 @@ export default function BigCard() {
       console.log(newWND);
       setWeatherNowData(newWND);
     }
-    
+
     if (weathLat !== null) {
       console.log('Looking up weather');
       SetDisplayNameVariables();
@@ -121,13 +154,19 @@ export default function BigCard() {
 
   }, [weathLat]);
 
+  useEffect(() => {
+    if (chosenCityData !== null) {
+      console.log(chosenCityData);
+    }
+  }, [chosenCityData]);
+
   return (
     <div className='bigCard'>
 
       <Container className='innerCont'>
         <Row className='searchRow'>
           <Col>
-            <input className='inp' type='text' value={searchTerm} placeholder='Search' onClick={handleClick} onChange={ (e) => {setSearchTerm(e.target.value)}}></input>
+            <input className='inp' type='text' value={input} placeholder='Search' onKeyDown={handleKeyDown} onChange={(e) => { setInput(e.target.value) }}></input>
             <Button className='btn'>S</Button>
             <Button className='btn'>F</Button>
           </Col>
