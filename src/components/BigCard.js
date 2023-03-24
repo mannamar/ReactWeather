@@ -5,6 +5,7 @@ import cloudy from '../assets/cloudy.png'
 import TodayCard from './TodayCard';
 import WeekCard from './WeekCard';
 import { prod, dev } from '../api/environment';
+import { stateAbbr } from '../api/states';
 
 export default function BigCard() {
 
@@ -18,6 +19,7 @@ export default function BigCard() {
   const [weatherNowData, setWeatherNowData] = useState(null);
   const [name, setName] = useState();
   const [state, setState] = useState();
+  const [displayName, setDisplayName] = useState();
 
   const [input, setInput] = useState('');
   // const [searchTerm, setSearchTerm] = useState();
@@ -40,6 +42,7 @@ export default function BigCard() {
   function SetDisplayNameVariables() {
     let newName;
     let newState;
+    let newDisplayName;
     if (chosenCityData.local_names && chosenCityData.local_names.en) {
       newName = chosenCityData.local_names.en;
     } else {
@@ -52,6 +55,17 @@ export default function BigCard() {
     }
     setName(newName);
     setState(newState);
+
+    if (stateAbbr[newState]) {
+      newDisplayName = newName + ', ' + stateAbbr[newState];
+    } else if (newState && newState.length === 2) {
+      newDisplayName = newName + ', ' + newState;
+    } else {
+      newDisplayName = name;
+    }
+
+    console.log('Display name: ', newDisplayName);
+    setDisplayName(newDisplayName);
   }
 
   async function GetNowData() {
@@ -170,24 +184,24 @@ export default function BigCard() {
               <img className='bigImg align-self-start' src={cloudy} alt='Depicts current weather' />
               <p className='bigTemp'>{weatherNowData !== null ? Math.round(weatherNowData.main.temp) : '--'}°</p>
             </div>
-            <p className='cityTxt'>{name}</p>
-            <p className='weathTxt'>{weatherNowData !== null ? weatherNowData.weather[0].main : '--'}</p>
+            <p className='cityTxt'>{displayName}</p>
+            <p className='weathTxt'>{weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear'}</p>
           </Col>
           <Col sm={8}>
             <div className='d-flex justify-content-between'>
-              <TodayCard />
-              <TodayCard />
-              <TodayCard />
+              <TodayCard title='High' />
+              <TodayCard title='Low' />
+              <TodayCard title='In 4 Hrs' />
             </div>
           </Col>
         </Row>
         <Row>
           <div className='weekRow d-flex justify-content-between'>
-            <WeekCard />
-            <WeekCard />
-            <WeekCard />
-            <WeekCard />
-            <WeekCard />
+            <WeekCard title='MON' />
+            <WeekCard title='TUE' />
+            <WeekCard title='WED' />
+            <WeekCard title='THU' />
+            <WeekCard title='FRI' />
           </div>
         </Row>
       </Container>
