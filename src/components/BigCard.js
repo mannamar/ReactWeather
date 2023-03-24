@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './BigCard.css'
 import { Button, Container, Row, Col } from 'react-bootstrap';
-import cloudy from '../assets/cloudy.png'
 import TodayCard from './TodayCard';
 import WeekCard from './WeekCard';
 import { prod, dev } from '../api/environment';
 import { stateAbbr } from '../api/states';
+import Clouds from '../assets/Clouds.png'
 
 export default function BigCard() {
 
@@ -224,7 +224,7 @@ export default function BigCard() {
         <Row className='nowRow'>
           <Col sm={4}>
             <div className='d-flex'>
-              <img className='bigImg align-self-start' src={cloudy} alt='Depicts current weather' />
+              <img className='bigImg align-self-start' src={require(`../assets/${(weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear')}.png`)} alt='Depicts current weather' />
               <p className='bigTemp'>{weatherNowData !== null ? Math.round(weatherNowData.main.temp) : '--'}°</p>
             </div>
             <p className='cityTxt'>{displayName}</p>
