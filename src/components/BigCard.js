@@ -216,13 +216,15 @@ export default function BigCard() {
       <Container className='innerCont'>
         <Row className='searchRow'>
           <Col>
-            <input className='inp' type='text' value={input} placeholder='Search' onKeyDown={handleKeyDown} onChange={(e) => { setInput(e.target.value) }}></input>
-            <button className='btn'>
-              <MagnifyingGlass size={28} color="#fff0f0" weight="bold" />
-            </button>
-            <button className='btn'>
-              <List size={28} color="#fff0f0" weight="bold" />
-            </button>
+            <div className='d-flex'>
+              <input className='inp' type='text' value={input} placeholder='Search' onKeyDown={handleKeyDown} onChange={(e) => { setInput(e.target.value) }}></input>
+              <button className='btn'>
+                <MagnifyingGlass size={28} color="#fff0f0" weight="bold" />
+              </button>
+              <button className='btn'>
+                <List size={28} color="#fff0f0" weight="bold" />
+              </button>
+            </div>
           </Col>
         </Row>
         <Row className='nowRow'>
