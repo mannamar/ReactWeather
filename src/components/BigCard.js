@@ -17,6 +17,9 @@ export default function BigCard() {
   const [weathLon, setWeathLon] = useState(-121.2907796);
   const [chosenCityData, setChosenCityData] = useState(null);
   const [weatherNowData, setWeatherNowData] = useState(null);
+  const [weatherFutueData, setWeatherFutureData] = useState(null);
+  const [parsedFWD, setParsedFWD] = useState(null);
+  const [dOWO, setDOWO] = useState(null);
   const [name, setName] = useState();
   const [state, setState] = useState();
   const [displayName, setDisplayName] = useState();
@@ -75,6 +78,45 @@ export default function BigCard() {
     let newWND = data;
     console.log(newWND);
     setWeatherNowData(newWND);
+  }
+
+  async function GetFutureData() {
+    let weatherNowApi = `https://api.openweathermap.org/data/2.5/forecast?lat=${chosenCityData.lat}&lon=${chosenCityData.lon}&appid=${apiKey}&units=imperial`;
+    let response = await fetch(weatherNowApi);
+    let data = await response.json();
+    let newWFD = data;
+    console.log(newWFD);
+    setWeatherFutureData(newWFD);
+
+    // From ParseFutureData()
+    let list = newWFD.list;
+    let parsedFutureData = {};
+    let dayOfWeekOrder = [];
+    for (let element of list) {
+      let tempUnixTime = element.dt;
+      let tempDateTime = new Date(tempUnixTime * 1000);
+      let dayOfWeek = tempDateTime.toLocaleDateString('en-US', { weekday: "long" });
+      // console.log(dayOfWeek, element.main.temp); // Log all temps for each day
+
+      if (!dayOfWeekOrder.includes(dayOfWeek)) {
+        dayOfWeekOrder.push(dayOfWeek);
+        parsedFutureData[dayOfWeek] = {};
+        parsedFutureData[dayOfWeek].all_weath = [];
+      }
+      if (!parsedFutureData[dayOfWeek].max || element.main.temp > parsedFutureData[dayOfWeek].max) {
+        parsedFutureData[dayOfWeek].max = element.main.temp;
+        parsedFutureData[dayOfWeek].max_weath = element.weather[0].main;
+      }
+      if (!parsedFutureData[dayOfWeek].min || element.main.temp < parsedFutureData[dayOfWeek].min) {
+        parsedFutureData[dayOfWeek].min = element.main.temp;
+        parsedFutureData[dayOfWeek].min_weath = element.weather[0].main;
+      }
+      if (!parsedFutureData[dayOfWeek].all_weath.includes(element.weather[0].main)) {
+        parsedFutureData[dayOfWeek].all_weath.push(element.weather[0].main);
+      }
+    }
+    setParsedFWD(parsedFutureData);
+    setDOWO(dayOfWeekOrder);
   }
 
   async function SearchForLocation(cityName, stateCode = '', countryCode = '', limit = 3) {
@@ -164,6 +206,7 @@ export default function BigCard() {
       console.log(chosenCityData);
       SetDisplayNameVariables();
       GetNowData();
+      GetFutureData();
     }
   }, [chosenCityData]);
 
@@ -197,7 +240,7 @@ export default function BigCard() {
         </Row>
         <Row>
           <div className='weekRow d-flex justify-content-between'>
-            <WeekCard title='MON' />
+            <WeekCard title='MON' num={0} high={parsedFWD !== null ? Math.round(parsedFWD[dOWO[0]].max) : '--'}/>
             <WeekCard title='TUE' />
             <WeekCard title='WED' />
             <WeekCard title='THU' />
