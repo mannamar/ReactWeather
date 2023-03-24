@@ -12,11 +12,18 @@ export default function BigCard() {
   const [apiKey, setApiKey] = useState(null);
   const [geoLat, setGeoLat] = useState(37.9577016);
   const [geoLon, setGeoLon] = useState(-121.2907796);
-  const [weathLat, setWeathLat] = useState(37.9577016);
+  const [weathLat, setWeathLat] = useState(null);
   const [weathLon, setWeathLon] = useState(-121.2907796);
   const [chosenCityData, setChosenCityData] = useState();
+  const [weatherNowData, setWeatherNowData] = useState(null);
   const [name, setName] = useState();
   const [state, setState] = useState();
+
+  const [searchTerm, setSearchTerm] = useState();
+
+  function handleClick() {
+
+  }
 
   // At page load
   useEffect(() => {
@@ -95,12 +102,22 @@ export default function BigCard() {
       setName(newName);
       setState(newState);
     }
+
+    async function GetNowData() {
+      let weatherNowApi = `https://api.openweathermap.org/data/2.5/weather?lat=${weathLat}&lon=${weathLon}&appid=${apiKey}&units=imperial`;
+      let response = await fetch(weatherNowApi);
+      let data = await response.json();
+      let newWND = data;
+      console.log(newWND);
+      setWeatherNowData(newWND);
+    }
     
-    if (apiKey !== null) {
+    if (weathLat !== null) {
       console.log('Looking up weather');
+      SetDisplayNameVariables();
+      GetNowData();
     }
 
-    SetDisplayNameVariables();
 
   }, [weathLat]);
 
@@ -110,7 +127,7 @@ export default function BigCard() {
       <Container className='innerCont'>
         <Row className='searchRow'>
           <Col>
-            <input className='inp' type='text' value='' placeholder='Search'></input>
+            <input className='inp' type='text' value={searchTerm} placeholder='Search' onClick={handleClick} onChange={ (e) => {setSearchTerm(e.target.value)}}></input>
             <Button className='btn'>S</Button>
             <Button className='btn'>F</Button>
           </Col>
@@ -119,10 +136,10 @@ export default function BigCard() {
           <Col sm={4}>
             <div className='d-flex'>
               <img className='bigImg align-self-start' src={cloudy} alt='Depicts current weather' />
-              <p className='bigTemp'>58°</p>
+              <p className='bigTemp'>{weatherNowData !== null ? Math.round(weatherNowData.main.temp) : '--'}°</p>
             </div>
             <p className='cityTxt'>{name}</p>
-            <p className='weathTxt'>{weathLat}</p>
+            <p className='weathTxt'>{weatherNowData !== null ? weatherNowData.weather[0].main : '--'}</p>
           </Col>
           <Col sm={8}>
             <div className='d-flex justify-content-between'>
@@ -146,6 +163,3 @@ export default function BigCard() {
     </div>
   )
 }
-
-// Our function
-
