@@ -115,6 +115,12 @@ export default function BigCard() {
 
   const handleKeyDown = async (event) => {
     if (event.key === 'Enter') {
+      handleClick();
+    }
+  }
+
+  const handleClick = async () => {
+    if (input.length > 0) {
       let inputSplit = input.split(',');
       setInput('');
 
@@ -196,7 +202,7 @@ export default function BigCard() {
           <Col>
             <div className='d-flex'>
               <input className='inp' type='text' value={input} placeholder='Search' onKeyDown={handleKeyDown} onChange={(e) => { setInput(e.target.value) }}></input>
-              <button className='btn'>
+              <button className='btn' onClick={handleClick}>
                 <MagnifyingGlass color="#fff0f0" weight="bold" className="icon"/>
               </button>
               <button className='btn'>
