@@ -95,7 +95,7 @@ export default function BigCard() {
     for (let element of list) {
       let tempUnixTime = element.dt;
       let tempDateTime = new Date(tempUnixTime * 1000);
-      let dayOfWeek = tempDateTime.toLocaleDateString('en-US', { weekday: "long" });
+      let dayOfWeek = tempDateTime.toLocaleDateString('en-US', { weekday: "short" }).toUpperCase();
       // console.log(dayOfWeek, element.main.temp); // Log all temps for each day
 
       if (!dayOfWeekOrder.includes(dayOfWeek)) {
