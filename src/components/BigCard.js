@@ -213,7 +213,7 @@ export default function BigCard() {
   return (
     <div className='bigCard'>
 
-      <Container className='innerCont'>
+      <Container fluid className='innerCont'>
         <Row className='searchRow'>
           <Col>
             <div className='d-flex'>
@@ -228,7 +228,7 @@ export default function BigCard() {
           </Col>
         </Row>
         <Row className='nowRow'>
-          <Col sm={5}>
+          <Col sm={12} lg={5}>
             <div className='nowBox'>
               <div className='d-flex'>
                 <img className='bigImg align-self-start' src={require(`../assets/${(weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear')}.png`)} alt='Depicts current weather' />
@@ -238,7 +238,7 @@ export default function BigCard() {
               <p className='weathTxt gray'>{weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear'}</p>
             </div>
           </Col>
-          <Col sm={7}>
+          <Col sm={12} lg={7}>
             <div className='todayBox d-flex justify-content-between'>
               <TodayCard title='High' data={parsedFWD} array={dOWO} val='max'/>
               <TodayCard title='Low' data={parsedFWD} array={dOWO} val='min'/>

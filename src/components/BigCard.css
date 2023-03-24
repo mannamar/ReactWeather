@@ -52,7 +52,8 @@
 }
 
 .nowBox {
-    padding-left: 50px;
+    padding-left: 40px;
+    padding-right: 10px;
     border-right: 4px solid white;
 }
 
@@ -88,4 +89,28 @@
 
 .weekRow {
     padding-top: 70px;
+    padding-bottom: 60px;
+}
+
+@media (max-width: 1200px) {
+    .bigCard {
+        min-width: 100vw;
+        min-height: 100vh;
+        border-radius: 0px;
+    }
+
+    .searchRow {
+        padding-top: 100px;
+    }
+}
+
+@media (max-width: 991px) {
+    .todayBox {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 70px;
+    }
+    .nowBox {
+        border-right: none;
+    }
 }
