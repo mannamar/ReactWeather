@@ -11,8 +11,8 @@ export default function BigCard() {
 
   // Variables
   const [apiKey, setApiKey] = useState(null);
-  const [geoLat, setGeoLat] = useState(37.9577016);
-  const [geoLon, setGeoLon] = useState(-121.2907796);
+  const [geoLat, setGeoLat] = useState(37.95);
+  const [geoLon, setGeoLon] = useState(-121.29);
   const [weathLat, setWeathLat] = useState(null);
   const [weathLon, setWeathLon] = useState(-121.2907796);
   const [chosenCityData, setChosenCityData] = useState(null);
@@ -151,6 +151,8 @@ export default function BigCard() {
 
     async function error(err) {
       console.warn(err.message);
+      setGeoLat(37.9577016);
+      setGeoLon(-121.2907796);
     }
 
 
