@@ -38,7 +38,7 @@
 
 .searchRow {
     padding-top: 57px;
-    padding-left: 5px;
+    /* padding-left: 5px; */
     /* background-color: blueviolet; */
 }
 
@@ -92,6 +92,10 @@
     padding-bottom: 60px;
 }
 
+.icon {
+    font-size: 28px;
+}
+
 @media (max-width: 1200px) {
     .bigCard {
         min-width: 100vw;
@@ -105,12 +109,95 @@
 }
 
 @media (max-width: 991px) {
+
     .todayBox {
         padding-left: 20px;
         padding-right: 20px;
         padding-top: 70px;
     }
+
     .nowBox {
         border-right: none;
+    }
+
+    .cityBox {
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    p {
+        font-size: 25px;
+    }
+
+    .inp {
+        width: 50%;
+        height: 40px;
+        font-size: 25px;
+    }
+
+    .btn {
+        height: 40px;
+        width: 40px;
+    }
+
+    .icon {
+        font-size: 15px;
+    }
+
+    html,
+    body {
+        overflow-x: hidden;
+    }
+
+    body {
+        position: relative
+    }
+}
+
+@media (max-width: 575px) {
+    p {
+        font-size: 20px;
+        line-height: 20px;
+    }
+
+    .inp {
+        font-size: 20px;
+    }
+
+    .weekImg {
+        height: 50px;
+    }
+
+    .searchRow {
+        padding-top: 50px;
+    }
+
+    .bigImg {
+        height: 80px;
+    }
+
+    .bigTemp {
+        font-size: 50px;
+    }
+
+    .innerCont {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .nowRow {
+        padding-top: 30px;
+    }
+
+    .cityTxt,
+    .weathTxt {
+        padding-top: 10px;
+    }
+
+    .todayBox,
+    .weekRow {
+        padding-top: 50px;
     }
 }

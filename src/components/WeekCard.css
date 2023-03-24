@@ -1,11 +1,11 @@
 .weekImg {
-    width: 78px;
+    height: 72px;
 }
 
 .weekCard {
-    height: 250px;
+    min-height: 250px;
     background-color: gray;
-    width: 17.7%;
+    min-width: 17.7%;
     border-radius: 15px;
     background: rgba(217, 217, 217, 0.2);
     box-shadow: inset -1px 1px 0px 1px rgba(106, 136, 143, 0.3);
@@ -13,4 +13,23 @@
 
 .lowTxt {
     font-size: 16px;
+}
+
+@media (max-width: 575px) {
+    .weekImg {
+        height: 50px;
+    }
+    .pad {
+        padding-top: 0;
+    }
+    .weekCard > p {
+        font-size: 15px;
+    }
+    .weekCard > .lowTxt {
+        font-size: 11px;
+        padding-bottom: 15px;
+    }
+    .weekCard {
+        min-height: 0;
+    }
 }

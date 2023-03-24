@@ -219,10 +219,10 @@ export default function BigCard() {
             <div className='d-flex'>
               <input className='inp' type='text' value={input} placeholder='Search' onKeyDown={handleKeyDown} onChange={(e) => { setInput(e.target.value) }}></input>
               <button className='btn'>
-                <MagnifyingGlass size={28} color="#fff0f0" weight="bold" />
+                <MagnifyingGlass color="#fff0f0" weight="bold" className="icon"/>
               </button>
               <button className='btn'>
-                <List size={28} color="#fff0f0" weight="bold" />
+                <List color="#fff0f0" weight="bold" className="icon"/>
               </button>
             </div>
           </Col>
@@ -230,12 +230,21 @@ export default function BigCard() {
         <Row className='nowRow'>
           <Col sm={12} lg={5}>
             <div className='nowBox'>
-              <div className='d-flex'>
-                <img className='bigImg align-self-start' src={require(`../assets/${(weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear')}.png`)} alt='Depicts current weather' />
-                <p className='bigTemp'>{weatherNowData !== null ? Math.round(weatherNowData.main.temp) : '--'}°</p>
-              </div>
-              <p className='cityTxt'>{displayName}</p>
-              <p className='weathTxt gray'>{weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear'}</p>
+            <Row>
+              <Col md={6} lg={12}>
+                <div className='d-flex'>
+                  <img className='bigImg align-self-start' src={require(`../assets/${(weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear')}.png`)} alt='Depicts current weather' />
+                  <p className='bigTemp'>{weatherNowData !== null ? Math.round(weatherNowData.main.temp) : '--'}°</p>
+                </div>
+              
+              </Col>
+              <Col md={6} lg={12}>
+                <div className='cityBox'>
+                  <p className='cityTxt'>{displayName}</p>
+                  <p className='weathTxt gray'>{weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear'}</p>
+                </div>
+              </Col>
+            </Row>
             </div>
           </Col>
           <Col sm={12} lg={7}>
