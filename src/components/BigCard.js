@@ -19,6 +19,7 @@ export default function BigCard() {
   const [parsedFWD, setParsedFWD] = useState(null);
   const [dOWO, setDOWO] = useState(null);
   const [displayName, setDisplayName] = useState('Loading...');
+  const [isFav, setIsFav] = useState(false);
 
   const [input, setInput] = useState('');
 
@@ -132,6 +133,10 @@ export default function BigCard() {
     }
   }
 
+  const clickFav = () => {
+    setIsFav(!isFav);
+  }
+
   // At page load
   useEffect(() => {
 
@@ -219,7 +224,7 @@ export default function BigCard() {
                 <div className='d-flex topNowBox'>
                   <img className='bigImg align-self-start' src={require(`../assets/${(weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear')}.png`)} alt='Depicts current weather' />
                   <p className='bigTemp'>{weatherNowData !== null ? Math.round(weatherNowData.main.temp) : '--'}°</p>
-                  <Star className="star" color="#ffd400" weight="bold" />
+                  <Star className="star" color="#ffd400" weight={ isFav ? 'fill' : 'bold'} onClick={clickFav}/>
                 </div>
               
               </Col>

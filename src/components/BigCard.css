@@ -107,6 +107,10 @@
     left: -20px;
 }
 
+.star:hover {
+    cursor: pointer;
+}
+
 @media (max-width: 1200px) {
     .bigCard {
         min-width: 100vw;
