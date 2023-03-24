@@ -116,6 +116,7 @@ export default function BigCard() {
       }
     }
     setParsedFWD(parsedFutureData);
+    console.log(parsedFutureData);
     setDOWO(dayOfWeekOrder);
   }
 
@@ -234,7 +235,7 @@ export default function BigCard() {
             <div className='d-flex justify-content-between'>
               <TodayCard title='High' data={parsedFWD} array={dOWO} val='max'/>
               <TodayCard title='Low' data={parsedFWD} array={dOWO} val='min'/>
-              <TodayCard title='In 4 Hrs' data={parsedFWD} array={dOWO} val='min'/>
+              <TodayCard title='In 4 Hrs' data={weatherFutueData} array={dOWO} val='later'/>
             </div>
           </Col>
         </Row>
