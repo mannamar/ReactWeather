@@ -25,21 +25,18 @@ export default function BigCard() {
   const [displayName, setDisplayName] = useState('Loading...');
 
   const [input, setInput] = useState('');
-  // const [searchTerm, setSearchTerm] = useState();
 
   function ChooseLocation(data) {
-    // console.log(data);
-    // data = data[0];
-    let newChosenCity = data[0];
-    for (let i = 0; i < data.length; i++) {
-      console.log(data[i].country)
-      if (data[i].country === 'US') {
-        // console.log(data[i]);
-        newChosenCity = data[i];
-        break;
+    if (data.length > 0) {
+      let newChosenCity = data[0];
+      for (let i = 0; i < data.length; i++) {
+        if (data[i].country === 'US') {
+          newChosenCity = data[i];
+          break;
+        }
       }
+      setChosenCityData(newChosenCity);
     }
-    setChosenCityData(newChosenCity);
   }
 
   function SetDisplayNameVariables() {
@@ -67,7 +64,6 @@ export default function BigCard() {
       newDisplayName = name;
     }
 
-    console.log('Display name: ', newDisplayName);
     setDisplayName(newDisplayName);
   }
 
@@ -76,7 +72,6 @@ export default function BigCard() {
     let response = await fetch(weatherNowApi);
     let data = await response.json();
     let newWND = data;
-    console.log(newWND);
     setWeatherNowData(newWND);
   }
 
@@ -85,7 +80,6 @@ export default function BigCard() {
     let response = await fetch(weatherNowApi);
     let data = await response.json();
     let newWFD = data;
-    console.log(newWFD);
     setWeatherFutureData(newWFD);
 
     // From ParseFutureData()
@@ -96,7 +90,6 @@ export default function BigCard() {
       let tempUnixTime = element.dt;
       let tempDateTime = new Date(tempUnixTime * 1000);
       let dayOfWeek = tempDateTime.toLocaleDateString('en-US', { weekday: "short" }).toUpperCase();
-      // console.log(dayOfWeek, element.main.temp); // Log all temps for each day
 
       if (!dayOfWeekOrder.includes(dayOfWeek)) {
         dayOfWeekOrder.push(dayOfWeek);
@@ -123,15 +116,12 @@ export default function BigCard() {
     let geocodingApi = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&limit=${limit}&appid=${apiKey}`;
     const response = await fetch(geocodingApi);
     const data = await response.json();
-    console.log(data);
     ChooseLocation(data);
   }
 
   const handleKeyDown = async (event) => {
     if (event.key === 'Enter') {
-      // setResponse( await GetHello(name) );
       let inputSplit = input.split(',');
-      console.log(inputSplit);
       setInput('');
 
       if (inputSplit.length === 1) {
@@ -154,8 +144,6 @@ export default function BigCard() {
     async function success(position) {
       let newLat = position.coords.latitude;
       let newLon = position.coords.longitude;
-      console.log(newLat);
-      console.log(newLon);
       setGeoLat(newLat);
       setGeoLon(newLon);
       // await ReverseGeoLookup();
@@ -174,7 +162,6 @@ export default function BigCard() {
     } else {
       newApiKey = dev.apiKey;
     }
-    console.log(newApiKey);
     setApiKey(newApiKey);
 
     navigator.geolocation.getCurrentPosition(success, error, options);
@@ -188,14 +175,12 @@ export default function BigCard() {
       let response = await fetch(reverseGeoApi);
       let data = await response.json();
       let newCCD = data[0];
-      console.log(newCCD);
       setChosenCityData(newCCD);
       setWeathLat(newCCD.lat);
       setWeathLon(newCCD.lon);
     }
 
     if (apiKey !== null) {
-      console.log('Looking up location');
       ReverseGeoLookup();
     }
 
@@ -203,7 +188,6 @@ export default function BigCard() {
 
   useEffect(() => {
     if (chosenCityData !== null) {
-      console.log(chosenCityData);
       SetDisplayNameVariables();
       GetNowData();
       GetFutureData();
