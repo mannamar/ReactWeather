@@ -228,16 +228,18 @@ export default function BigCard() {
           </Col>
         </Row>
         <Row className='nowRow'>
-          <Col sm={6}>
-            <div className='d-flex'>
-              <img className='bigImg align-self-start' src={require(`../assets/${(weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear')}.png`)} alt='Depicts current weather' />
-              <p className='bigTemp'>{weatherNowData !== null ? Math.round(weatherNowData.main.temp) : '--'}°</p>
+          <Col sm={5}>
+            <div className='nowBox'>
+              <div className='d-flex'>
+                <img className='bigImg align-self-start' src={require(`../assets/${(weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear')}.png`)} alt='Depicts current weather' />
+                <p className='bigTemp'>{weatherNowData !== null ? Math.round(weatherNowData.main.temp) : '--'}°</p>
+              </div>
+              <p className='cityTxt'>{displayName}</p>
+              <p className='weathTxt gray'>{weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear'}</p>
             </div>
-            <p className='cityTxt'>{displayName}</p>
-            <p className='weathTxt gray'>{weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear'}</p>
           </Col>
-          <Col sm={6}>
-            <div className='d-flex justify-content-between'>
+          <Col sm={7}>
+            <div className='todayBox d-flex justify-content-between'>
               <TodayCard title='High' data={parsedFWD} array={dOWO} val='max'/>
               <TodayCard title='Low' data={parsedFWD} array={dOWO} val='min'/>
               <TodayCard title='+4hrs' data={weatherFutueData} array={dOWO} val='later'/>

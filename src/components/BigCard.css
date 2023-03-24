@@ -1,5 +1,5 @@
 .bigCard {
-    width: 1162px;
+    min-width: 1162px;
     min-height: 755px;
     background-color: aqua;
     border-radius: 15px;
@@ -49,6 +49,17 @@
 
 .nowRow {
     padding-top: 56px;
+}
+
+.nowBox {
+    padding-left: 50px;
+    border-right: 4px solid white;
+}
+
+.todayBox {
+    padding-left: 80px;
+    padding-right: 40px;
+    padding-top: 18px;
 }
 
 .bigImg {
