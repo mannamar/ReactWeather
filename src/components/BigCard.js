@@ -232,9 +232,9 @@ export default function BigCard() {
           </Col>
           <Col sm={8}>
             <div className='d-flex justify-content-between'>
-              <TodayCard title='High' />
-              <TodayCard title='Low' />
-              <TodayCard title='In 4 Hrs' />
+              <TodayCard title='High' data={parsedFWD} array={dOWO} val='max'/>
+              <TodayCard title='Low' data={parsedFWD} array={dOWO} val='min'/>
+              <TodayCard title='In 4 Hrs' data={parsedFWD} array={dOWO} val='min'/>
             </div>
           </Col>
         </Row>
