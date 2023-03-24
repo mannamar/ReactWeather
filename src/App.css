@@ -5,6 +5,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  background-image: url('./assets/background.jpg');
+  background-size: cover;
 }
 
 p {
@@ -14,4 +16,9 @@ p {
   line-height: 32px;
   padding: 0;
   margin: 0;
+  color: white;
+}
+
+.gray {
+  color: rgba(176, 176, 176, 0.9);
 }

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './BigCard.css'
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import TodayCard from './TodayCard';
 import WeekCard from './WeekCard';
 import { prod, dev } from '../api/environment';
 import { stateAbbr } from '../api/states';
-import Clouds from '../assets/Clouds.png'
+import { MagnifyingGlass, List } from "@phosphor-icons/react";
 
 export default function BigCard() {
 
@@ -22,7 +22,7 @@ export default function BigCard() {
   const [dOWO, setDOWO] = useState(null);
   const [name, setName] = useState();
   const [state, setState] = useState();
-  const [displayName, setDisplayName] = useState();
+  const [displayName, setDisplayName] = useState('Loading...');
 
   const [input, setInput] = useState('');
   // const [searchTerm, setSearchTerm] = useState();
@@ -217,24 +217,28 @@ export default function BigCard() {
         <Row className='searchRow'>
           <Col>
             <input className='inp' type='text' value={input} placeholder='Search' onKeyDown={handleKeyDown} onChange={(e) => { setInput(e.target.value) }}></input>
-            <Button className='btn'>S</Button>
-            <Button className='btn'>F</Button>
+            <button className='btn'>
+              <MagnifyingGlass size={28} color="#fff0f0" weight="bold" />
+            </button>
+            <button className='btn'>
+              <List size={28} color="#fff0f0" weight="bold" />
+            </button>
           </Col>
         </Row>
         <Row className='nowRow'>
-          <Col sm={4}>
+          <Col sm={6}>
             <div className='d-flex'>
               <img className='bigImg align-self-start' src={require(`../assets/${(weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear')}.png`)} alt='Depicts current weather' />
               <p className='bigTemp'>{weatherNowData !== null ? Math.round(weatherNowData.main.temp) : '--'}°</p>
             </div>
             <p className='cityTxt'>{displayName}</p>
-            <p className='weathTxt'>{weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear'}</p>
+            <p className='weathTxt gray'>{weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear'}</p>
           </Col>
-          <Col sm={8}>
+          <Col sm={6}>
             <div className='d-flex justify-content-between'>
               <TodayCard title='High' data={parsedFWD} array={dOWO} val='max'/>
               <TodayCard title='Low' data={parsedFWD} array={dOWO} val='min'/>
-              <TodayCard title='In 4 Hrs' data={weatherFutueData} array={dOWO} val='later'/>
+              <TodayCard title='+4hrs' data={weatherFutueData} array={dOWO} val='later'/>
             </div>
           </Col>
         </Row>
