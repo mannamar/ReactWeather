@@ -116,7 +116,6 @@ export default function BigCard() {
       }
     }
     setParsedFWD(parsedFutureData);
-    console.log(parsedFutureData);
     setDOWO(dayOfWeekOrder);
   }
 
