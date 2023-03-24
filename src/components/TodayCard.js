@@ -1,6 +1,5 @@
-import React from 'react'
-import './TodayCard.css'
-import Clouds from '../assets/Clouds.png'
+import React from 'react';
+import './TodayCard.css';
 
 export default function TodayCard(props) {
 

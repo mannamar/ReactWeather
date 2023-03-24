@@ -13,15 +13,11 @@ export default function BigCard() {
   const [apiKey, setApiKey] = useState(null);
   const [geoLat, setGeoLat] = useState(37.95);
   const [geoLon, setGeoLon] = useState(-121.29);
-  const [weathLat, setWeathLat] = useState(null);
-  const [weathLon, setWeathLon] = useState(-121.2907796);
   const [chosenCityData, setChosenCityData] = useState(null);
   const [weatherNowData, setWeatherNowData] = useState(null);
   const [weatherFutueData, setWeatherFutureData] = useState(null);
   const [parsedFWD, setParsedFWD] = useState(null);
   const [dOWO, setDOWO] = useState(null);
-  const [name, setName] = useState();
-  const [state, setState] = useState();
   const [displayName, setDisplayName] = useState('Loading...');
 
   const [input, setInput] = useState('');
@@ -53,15 +49,13 @@ export default function BigCard() {
     } else {
       newState = chosenCityData.country;
     }
-    setName(newName);
-    setState(newState);
 
     if (stateAbbr[newState]) {
       newDisplayName = newName + ', ' + stateAbbr[newState];
     } else if (newState && newState.length === 2) {
       newDisplayName = newName + ', ' + newState;
     } else {
-      newDisplayName = name;
+      newDisplayName = newName;
     }
 
     setDisplayName(newDisplayName);
@@ -178,8 +172,6 @@ export default function BigCard() {
       let data = await response.json();
       let newCCD = data[0];
       setChosenCityData(newCCD);
-      setWeathLat(newCCD.lat);
-      setWeathLon(newCCD.lon);
     }
 
     if (apiKey !== null) {

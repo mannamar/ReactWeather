@@ -1,6 +1,5 @@
-import React from 'react'
-import Clouds from '../assets/Clouds.png'
-import './WeekCard.css'
+import React from 'react';
+import './WeekCard.css';
 
 export default function WeekCard(props) {
 
