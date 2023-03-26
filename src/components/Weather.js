@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import './BigCard.css'
 import { Container, Row, Col } from 'react-bootstrap';
-import Weather from './Weather';
 import TodayCard from './TodayCard';
 import WeekCard from './WeekCard';
 import { prod, dev } from '../api/environment';
 import { stateAbbr } from '../api/states';
 import { MagnifyingGlass, List, Star } from "@phosphor-icons/react";
 
-export default function BigCard() {
+export default function Weather(props) {
 
-  // Variables
+    // Variables
   const [apiKey, setApiKey] = useState(null);
   const [geoLat, setGeoLat] = useState(37.95);
   const [geoLon, setGeoLon] = useState(-121.29);
@@ -41,15 +39,15 @@ export default function BigCard() {
     let newName;
     let newState;
     let newDisplayName;
-    if (chosenCityData.local_names && chosenCityData.local_names.en) {
-      newName = chosenCityData.local_names.en;
+    if (props.data.local_names && props.data.local_names.en) {
+      newName = props.data.local_names.en;
     } else {
-      newName = chosenCityData.name;
+      newName = props.data.name;
     }
-    if (chosenCityData.country === 'US' && chosenCityData.state) {
-      newState = chosenCityData.state;
+    if (props.data.country === 'US' && props.data.state) {
+      newState = props.data.state;
     } else {
-      newState = chosenCityData.country;
+      newState = props.data.country;
     }
 
     if (stateAbbr[newState]) {
@@ -64,7 +62,7 @@ export default function BigCard() {
   }
 
   async function GetNowData() {
-    let weatherNowApi = `https://api.openweathermap.org/data/2.5/weather?lat=${chosenCityData.lat}&lon=${chosenCityData.lon}&appid=${apiKey}&units=imperial`;
+    let weatherNowApi = `https://api.openweathermap.org/data/2.5/weather?lat=${props.data.lat}&lon=${props.data.lon}&appid=${apiKey}&units=imperial`;
     let response = await fetch(weatherNowApi);
     let data = await response.json();
     let newWND = data;
@@ -72,7 +70,7 @@ export default function BigCard() {
   }
 
   async function GetFutureData() {
-    let weatherNowApi = `https://api.openweathermap.org/data/2.5/forecast?lat=${chosenCityData.lat}&lon=${chosenCityData.lon}&appid=${apiKey}&units=imperial`;
+    let weatherNowApi = `https://api.openweathermap.org/data/2.5/forecast?lat=${props.data.lat}&lon=${props.data.lon}&appid=${apiKey}&units=imperial`;
     let response = await fetch(weatherNowApi);
     let data = await response.json();
     let newWFD = data;
@@ -193,35 +191,53 @@ export default function BigCard() {
   }, [geoLat]);
 
   useEffect(() => {
-    if (chosenCityData !== null) {
+    if (props.data !== null) {
       SetDisplayNameVariables();
       GetNowData();
       GetFutureData();
     }
-  }, [chosenCityData]);
+  }, [props.data]);
 
-  return (
-    <div className='bigCard'>
+    return (
+        <>
+            <Row className='nowRow'>
+                <Col sm={12} lg={5}>
+                    <div className='nowBox'>
+                        <Row>
+                            <Col md={6} lg={12}>
+                                <div className='d-flex topNowBox'>
+                                    <img className='bigImg align-self-start' src={require(`../assets/${(weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear')}.png`)} alt='Depicts current weather' />
+                                    <p className='bigTemp'>{weatherNowData !== null ? Math.round(weatherNowData.main.temp) : '--'}°</p>
+                                    <Star className="star" color="#ffd400" weight={isFav ? 'fill' : 'bold'} onClick={clickFav} />
+                                </div>
 
-      <Container fluid className='innerCont'>
-
-        <Row className='searchRow'>
-          <Col>
-            <div className='d-flex'>
-              <input className='inp' type='text' value={input} placeholder='Search' onKeyDown={handleKeyDown} onChange={(e) => { setInput(e.target.value) }}></input>
-              <button className='btn' onClick={handleClick}>
-                <MagnifyingGlass color="#fff0f0" weight="bold" className="icon"/>
-              </button>
-              <button className='btn'>
-                <List color="#fff0f0" weight="bold" className="icon"/>
-              </button>
-            </div>
-          </Col>
-        </Row>
-
-        <Weather data={chosenCityData}/>
-      </Container>
-
-    </div>
-  )
+                            </Col>
+                            <Col md={6} lg={12}>
+                                <div className='cityBox'>
+                                    <p className='cityTxt'>{displayName}</p>
+                                    <p className='weathTxt gray'>{weatherNowData !== null ? weatherNowData.weather[0].main : 'Clear'}</p>
+                                </div>
+                            </Col>
+                        </Row>
+                    </div>
+                </Col>
+                <Col sm={12} lg={7}>
+                    <div className='todayBox d-flex justify-content-between'>
+                        <TodayCard title='High' data={parsedFWD} array={dOWO} val='max' />
+                        <TodayCard title='Low' data={parsedFWD} array={dOWO} val='min' />
+                        <TodayCard title='+4hrs' data={weatherFutueData} array={dOWO} val='later' />
+                    </div>
+                </Col>
+            </Row>
+            <Row>
+                <div className='weekRow d-flex justify-content-between'>
+                    <WeekCard title='MON' num={0} data={parsedFWD} array={dOWO} />
+                    <WeekCard title='TUE' num={1} data={parsedFWD} array={dOWO} />
+                    <WeekCard title='WED' num={2} data={parsedFWD} array={dOWO} />
+                    <WeekCard title='THU' num={3} data={parsedFWD} array={dOWO} />
+                    <WeekCard title='FRI' num={4} data={parsedFWD} array={dOWO} />
+                </div>
+            </Row>
+        </>
+    )
 }
