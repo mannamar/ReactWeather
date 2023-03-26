@@ -9,7 +9,4 @@ Peer Reviewed by Reed Goodwin: A good looking and well put together weather app.
 
 Azure Deployment: https://amarweatherapp.azurewebsites.net/  
 
-FIgma Link: https://www.figma.com/file/uiTqBKq0smaT6b6IiK2mIC/Weather-App?node-id=1%3A2&t=MLNX6M13yMzljWIm-1  
-
-Github Link: https://github.com/peedrama/weather-app  
-
+Figma Prototype: https://www.figma.com/file/uiTqBKq0smaT6b6IiK2mIC/Weather-App?node-id=1%3A2&t=MLNX6M13yMzljWIm-1  
