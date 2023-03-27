@@ -15,6 +15,8 @@ export default function Weather(props) {
     const [displayName, setDisplayName] = useState('Loading...');
     const [isFav, setIsFav] = useState(false);
 
+    const [favs, setFavs] = useState([]);
+
     // Functions
     function SetDisplayNameVariables() {
         let newName;
@@ -87,8 +89,28 @@ export default function Weather(props) {
         setDOWO(dayOfWeekOrder);
     }
 
+    function checkFav() {
+        setIsFav(favs.includes(displayName));
+    }
+
     // Event handlers
     const clickFav = () => {
+        if (displayName === 'Loading...') {
+            return;
+        }
+
+        let newFavs;
+        if (isFav) {
+            let index = favs.indexOf(displayName);
+            newFavs = [
+                ...favs.slice(0, index),
+                ...favs.slice(index + 1)
+              ]
+        } else {
+            newFavs = [...favs, displayName];
+        }
+        setFavs(newFavs);
+        localStorage.setItem('favs', JSON.stringify(newFavs));
         setIsFav(!isFav);
     }
 
@@ -99,8 +121,17 @@ export default function Weather(props) {
             GetNowData();
             GetFutureData();
         }
+        
     }, [props.data]);
-
+    
+    useEffect(() => {
+        // Local storage
+        const newFavs = JSON.parse(localStorage.getItem('favs'));
+        if (newFavs) {
+            setFavs(newFavs);
+        }
+        checkFav();
+    }, [displayName]);
 
     return (
         <>

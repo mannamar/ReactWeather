@@ -120,16 +120,16 @@ export default function BigCard() {
             <div className='d-flex'>
               <input className='inp' type='text' value={input} placeholder='Search' onKeyDown={handleKeyDown} onChange={(e) => { setInput(e.target.value) }}></input>
               <button className='btn' onClick={handleClick}>
-                <MagnifyingGlass color="#fff0f0" weight="bold" className="icon"/>
+                <MagnifyingGlass color="#fff0f0" weight="bold" className="icon" />
               </button>
               <button className='btn'>
-                <List color="#fff0f0" weight="bold" className="icon"/>
+                <List color="#fff0f0" weight="bold" className="icon" />
               </button>
             </div>
           </Col>
         </Row>
 
-        <Weather data={chosenCityData} apiKey={apiKey}/>
+        <Weather data={chosenCityData} apiKey={apiKey} />
 
       </Container>
 
