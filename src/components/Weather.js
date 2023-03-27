@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import TodayCard from './TodayCard';
 import WeekCard from './WeekCard';
-import { prod, dev } from '../api/environment';
 import { stateAbbr } from '../api/states';
-import { MagnifyingGlass, List, Star } from "@phosphor-icons/react";
+import { Star } from "@phosphor-icons/react";
 
 export default function Weather(props) {
 
@@ -102,7 +101,7 @@ export default function Weather(props) {
         }
     }, [props.data]);
 
-    
+
     return (
         <>
             <Row className='nowRow'>
