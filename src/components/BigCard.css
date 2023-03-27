@@ -1,4 +1,5 @@
 .bigCard {
+    max-width: 1162px;
     min-width: 1162px;
     min-height: 755px;
     background-color: aqua;

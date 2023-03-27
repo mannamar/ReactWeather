@@ -139,28 +139,6 @@ export default function Weather(props) {
   // At page load
   useEffect(() => {
 
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0
-    };
-
-    async function success(position) {
-      let newLat = position.coords.latitude;
-      let newLon = position.coords.longitude;
-      setGeoLat(newLat);
-      setGeoLon(newLon);
-      // await ReverseGeoLookup();
-    }
-
-    async function error(err) {
-      console.warn(err.message);
-      setGeoLat(37.9577016);
-      setGeoLon(-121.2907796);
-    }
-
-
-
     let newApiKey = '';
 
     if (prod.isLive) {
@@ -169,9 +147,6 @@ export default function Weather(props) {
       newApiKey = dev.apiKey;
     }
     setApiKey(newApiKey);
-
-    navigator.geolocation.getCurrentPosition(success, error, options);
-
 
   }, []);
 
