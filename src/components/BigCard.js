@@ -12,9 +12,9 @@ export default function BigCard() {
   const [geoLat, setGeoLat] = useState(37.95);
   const [geoLon, setGeoLon] = useState(-121.29);
   const [chosenCityData, setChosenCityData] = useState(null);
-
   const [input, setInput] = useState('');
 
+  // Functions
   function ChooseLocation(data) {
     if (data.length > 0) {
       let newChosenCity = data[0];
@@ -54,9 +54,10 @@ export default function BigCard() {
     }
   }
 
-  // At page load
+  // Call effect at page load
   useEffect(() => {
 
+    // Set geo-location functions
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -77,7 +78,7 @@ export default function BigCard() {
     }
 
 
-
+    // Get API key
     let newApiKey = '';
 
     if (prod.isLive) {
@@ -87,11 +88,12 @@ export default function BigCard() {
     }
     setApiKey(newApiKey);
 
+    // Execute geo-location lookup
     navigator.geolocation.getCurrentPosition(success, error, options);
-
 
   }, []);
 
+  // Call effect at geo-loc found
   useEffect(() => {
     async function ReverseGeoLookup() {
       let reverseGeoApi = `https://api.openweathermap.org/geo/1.0/reverse?lat=${geoLat}&lon=${geoLon}&limit=1&appid=${apiKey}`;
@@ -106,6 +108,7 @@ export default function BigCard() {
     }
 
   }, [geoLat]);
+
 
   return (
     <div className='bigCard'>
@@ -126,7 +129,8 @@ export default function BigCard() {
           </Col>
         </Row>
 
-        <Weather data={chosenCityData}/>
+        <Weather data={chosenCityData} apiKey={apiKey}/>
+
       </Container>
 
     </div>

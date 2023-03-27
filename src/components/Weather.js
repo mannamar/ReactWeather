@@ -9,170 +9,100 @@ import { MagnifyingGlass, List, Star } from "@phosphor-icons/react";
 export default function Weather(props) {
 
     // Variables
-  const [apiKey, setApiKey] = useState(null);
-  const [geoLat, setGeoLat] = useState(37.95);
-  const [geoLon, setGeoLon] = useState(-121.29);
-  const [chosenCityData, setChosenCityData] = useState(null);
-  const [weatherNowData, setWeatherNowData] = useState(null);
-  const [weatherFutueData, setWeatherFutureData] = useState(null);
-  const [parsedFWD, setParsedFWD] = useState(null);
-  const [dOWO, setDOWO] = useState(null);
-  const [displayName, setDisplayName] = useState('Loading...');
-  const [isFav, setIsFav] = useState(false);
+    const [weatherNowData, setWeatherNowData] = useState(null);
+    const [weatherFutueData, setWeatherFutureData] = useState(null);
+    const [parsedFWD, setParsedFWD] = useState(null);
+    const [dOWO, setDOWO] = useState(null);
+    const [displayName, setDisplayName] = useState('Loading...');
+    const [isFav, setIsFav] = useState(false);
 
-  const [input, setInput] = useState('');
-
-  function ChooseLocation(data) {
-    if (data.length > 0) {
-      let newChosenCity = data[0];
-      for (let i = 0; i < data.length; i++) {
-        if (data[i].country === 'US') {
-          newChosenCity = data[i];
-          break;
+    // Functions
+    function SetDisplayNameVariables() {
+        let newName;
+        let newState;
+        let newDisplayName;
+        if (props.data.local_names && props.data.local_names.en) {
+            newName = props.data.local_names.en;
+        } else {
+            newName = props.data.name;
         }
-      }
-      setChosenCityData(newChosenCity);
-    }
-  }
+        if (props.data.country === 'US' && props.data.state) {
+            newState = props.data.state;
+        } else {
+            newState = props.data.country;
+        }
 
-  function SetDisplayNameVariables() {
-    let newName;
-    let newState;
-    let newDisplayName;
-    if (props.data.local_names && props.data.local_names.en) {
-      newName = props.data.local_names.en;
-    } else {
-      newName = props.data.name;
-    }
-    if (props.data.country === 'US' && props.data.state) {
-      newState = props.data.state;
-    } else {
-      newState = props.data.country;
+        if (stateAbbr[newState]) {
+            newDisplayName = newName + ', ' + stateAbbr[newState];
+        } else if (newState && newState.length === 2) {
+            newDisplayName = newName + ', ' + newState;
+        } else {
+            newDisplayName = newName;
+        }
+
+        setDisplayName(newDisplayName);
     }
 
-    if (stateAbbr[newState]) {
-      newDisplayName = newName + ', ' + stateAbbr[newState];
-    } else if (newState && newState.length === 2) {
-      newDisplayName = newName + ', ' + newState;
-    } else {
-      newDisplayName = newName;
+    async function GetNowData() {
+        let weatherNowApi = `https://api.openweathermap.org/data/2.5/weather?lat=${props.data.lat}&lon=${props.data.lon}&appid=${props.apiKey}&units=imperial`;
+        let response = await fetch(weatherNowApi);
+        let data = await response.json();
+        let newWND = data;
+        setWeatherNowData(newWND);
     }
 
-    setDisplayName(newDisplayName);
-  }
+    async function GetFutureData() {
+        let weatherNowApi = `https://api.openweathermap.org/data/2.5/forecast?lat=${props.data.lat}&lon=${props.data.lon}&appid=${props.apiKey}&units=imperial`;
+        let response = await fetch(weatherNowApi);
+        let data = await response.json();
+        let newWFD = data;
+        setWeatherFutureData(newWFD);
 
-  async function GetNowData() {
-    let weatherNowApi = `https://api.openweathermap.org/data/2.5/weather?lat=${props.data.lat}&lon=${props.data.lon}&appid=${apiKey}&units=imperial`;
-    let response = await fetch(weatherNowApi);
-    let data = await response.json();
-    let newWND = data;
-    setWeatherNowData(newWND);
-  }
+        // From ParseFutureData()
+        let list = newWFD.list;
+        let parsedFutureData = {};
+        let dayOfWeekOrder = [];
+        for (let element of list) {
+            let tempUnixTime = element.dt;
+            let tempDateTime = new Date(tempUnixTime * 1000);
+            let dayOfWeek = tempDateTime.toLocaleDateString('en-US', { weekday: "short" }).toUpperCase();
 
-  async function GetFutureData() {
-    let weatherNowApi = `https://api.openweathermap.org/data/2.5/forecast?lat=${props.data.lat}&lon=${props.data.lon}&appid=${apiKey}&units=imperial`;
-    let response = await fetch(weatherNowApi);
-    let data = await response.json();
-    let newWFD = data;
-    setWeatherFutureData(newWFD);
-
-    // From ParseFutureData()
-    let list = newWFD.list;
-    let parsedFutureData = {};
-    let dayOfWeekOrder = [];
-    for (let element of list) {
-      let tempUnixTime = element.dt;
-      let tempDateTime = new Date(tempUnixTime * 1000);
-      let dayOfWeek = tempDateTime.toLocaleDateString('en-US', { weekday: "short" }).toUpperCase();
-
-      if (!dayOfWeekOrder.includes(dayOfWeek)) {
-        dayOfWeekOrder.push(dayOfWeek);
-        parsedFutureData[dayOfWeek] = {};
-        parsedFutureData[dayOfWeek].all_weath = [];
-      }
-      if (!parsedFutureData[dayOfWeek].max || element.main.temp > parsedFutureData[dayOfWeek].max) {
-        parsedFutureData[dayOfWeek].max = element.main.temp;
-        parsedFutureData[dayOfWeek].max_weath = element.weather[0].main;
-      }
-      if (!parsedFutureData[dayOfWeek].min || element.main.temp < parsedFutureData[dayOfWeek].min) {
-        parsedFutureData[dayOfWeek].min = element.main.temp;
-        parsedFutureData[dayOfWeek].min_weath = element.weather[0].main;
-      }
-      if (!parsedFutureData[dayOfWeek].all_weath.includes(element.weather[0].main)) {
-        parsedFutureData[dayOfWeek].all_weath.push(element.weather[0].main);
-      }
-    }
-    setParsedFWD(parsedFutureData);
-    setDOWO(dayOfWeekOrder);
-  }
-
-  async function SearchForLocation(cityName, stateCode = '', countryCode = '', limit = 3) {
-    let geocodingApi = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName},${stateCode},${countryCode}&limit=${limit}&appid=${apiKey}`;
-    const response = await fetch(geocodingApi);
-    const data = await response.json();
-    ChooseLocation(data);
-  }
-
-  const handleKeyDown = async (event) => {
-    if (event.key === 'Enter') {
-      handleClick();
-    }
-  }
-
-  const handleClick = async () => {
-    if (input.length > 0) {
-      let inputSplit = input.split(',');
-      setInput('');
-
-      if (inputSplit.length === 1) {
-        await SearchForLocation(inputSplit[0]);
-      } else {
-        await SearchForLocation(inputSplit[0], inputSplit[1]);
-      }
-    }
-  }
-
-  const clickFav = () => {
-    setIsFav(!isFav);
-  }
-
-  // At page load
-  useEffect(() => {
-
-    let newApiKey = '';
-
-    if (prod.isLive) {
-      newApiKey = prod.apiKey;
-    } else {
-      newApiKey = dev.apiKey;
-    }
-    setApiKey(newApiKey);
-
-  }, []);
-
-  useEffect(() => {
-    async function ReverseGeoLookup() {
-      let reverseGeoApi = `https://api.openweathermap.org/geo/1.0/reverse?lat=${geoLat}&lon=${geoLon}&limit=1&appid=${apiKey}`;
-      let response = await fetch(reverseGeoApi);
-      let data = await response.json();
-      let newCCD = data[0];
-      setChosenCityData(newCCD);
+            if (!dayOfWeekOrder.includes(dayOfWeek)) {
+                dayOfWeekOrder.push(dayOfWeek);
+                parsedFutureData[dayOfWeek] = {};
+                parsedFutureData[dayOfWeek].all_weath = [];
+            }
+            if (!parsedFutureData[dayOfWeek].max || element.main.temp > parsedFutureData[dayOfWeek].max) {
+                parsedFutureData[dayOfWeek].max = element.main.temp;
+                parsedFutureData[dayOfWeek].max_weath = element.weather[0].main;
+            }
+            if (!parsedFutureData[dayOfWeek].min || element.main.temp < parsedFutureData[dayOfWeek].min) {
+                parsedFutureData[dayOfWeek].min = element.main.temp;
+                parsedFutureData[dayOfWeek].min_weath = element.weather[0].main;
+            }
+            if (!parsedFutureData[dayOfWeek].all_weath.includes(element.weather[0].main)) {
+                parsedFutureData[dayOfWeek].all_weath.push(element.weather[0].main);
+            }
+        }
+        setParsedFWD(parsedFutureData);
+        setDOWO(dayOfWeekOrder);
     }
 
-    if (apiKey !== null) {
-      ReverseGeoLookup();
+    // Event handlers
+    const clickFav = () => {
+        setIsFav(!isFav);
     }
 
-  }, [geoLat]);
+    // Call effect when passed in chosenCityData changes
+    useEffect(() => {
+        if (props.data !== null) {
+            SetDisplayNameVariables();
+            GetNowData();
+            GetFutureData();
+        }
+    }, [props.data]);
 
-  useEffect(() => {
-    if (props.data !== null) {
-      SetDisplayNameVariables();
-      GetNowData();
-      GetFutureData();
-    }
-  }, [props.data]);
-
+    
     return (
         <>
             <Row className='nowRow'>
