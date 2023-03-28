@@ -1,0 +1,13 @@
+.favCard {
+    height: 264px;
+    width: 100%;
+    background-color: gray;
+    border-radius: 15px;
+    background: rgba(217, 217, 217, 0.2);
+    box-shadow: inset -1px 1px 0px 1px rgba(106, 136, 143, 0.3);
+}
+
+.favName {
+    padding-top: 30px;
+    padding-left: 30px;
+}

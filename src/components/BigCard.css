@@ -1,7 +1,7 @@
 .bigCard {
     max-width: 1162px;
     min-width: 1162px;
-    min-height: 755px;
+    min-height: 764px;
     background-color: aqua;
     border-radius: 15px;
     background: rgba(0, 0, 0, 0.7);
@@ -48,7 +48,7 @@
     padding-right: 61px;
 }
 
-.nowRow {
+.nowRow, .favRow {
     padding-top: 56px;
 }
 

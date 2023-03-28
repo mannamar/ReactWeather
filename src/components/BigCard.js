@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Weather from './Weather';
 import { prod, dev } from '../api/environment';
 import { MagnifyingGlass, List } from "@phosphor-icons/react";
+import Favorites from './Favorites';
 
 export default function BigCard() {
 
@@ -13,6 +14,8 @@ export default function BigCard() {
   const [geoLon, setGeoLon] = useState(-121.29);
   const [chosenCityData, setChosenCityData] = useState(null);
   const [input, setInput] = useState('');
+
+  const [showFavs, setShowFavs] = useState(false);
 
   // Functions
   function ChooseLocation(data) {
@@ -52,6 +55,10 @@ export default function BigCard() {
         await SearchForLocation(inputSplit[0], inputSplit[1]);
       }
     }
+  }
+
+  const clickFavs = () => {
+    setShowFavs(!showFavs);
   }
 
   // Call effect at page load
@@ -122,14 +129,14 @@ export default function BigCard() {
               <button className='btn' onClick={handleClick}>
                 <MagnifyingGlass color="#fff0f0" weight="bold" className="icon" />
               </button>
-              <button className='btn'>
+              <button className='btn' onClick={clickFavs}>
                 <List color="#fff0f0" weight="bold" className="icon" />
               </button>
             </div>
           </Col>
         </Row>
 
-        <Weather data={chosenCityData} apiKey={apiKey} />
+        {showFavs ? <Favorites /> : <Weather data={chosenCityData} apiKey={apiKey} />}
 
       </Container>
 

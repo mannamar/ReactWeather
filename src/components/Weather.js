@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap';
 import TodayCard from './TodayCard';
 import WeekCard from './WeekCard';
+import Favorites from './Favorites';
 import { stateAbbr } from '../api/states';
 import { Star } from "@phosphor-icons/react";
 
