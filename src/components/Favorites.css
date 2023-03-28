@@ -7,7 +7,16 @@
     box-shadow: inset -1px 1px 0px 1px rgba(106, 136, 143, 0.3);
 }
 
+.favCard:hover {
+    cursor: pointer;
+}
+
 .favName {
     padding-top: 30px;
     padding-left: 30px;
+    padding-right: 30px;
+}
+
+.favRow {
+    padding-top: 40px;
 }

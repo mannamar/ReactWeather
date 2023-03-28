@@ -136,7 +136,7 @@ export default function BigCard() {
           </Col>
         </Row>
 
-        {showFavs ? <Favorites /> : <Weather data={chosenCityData} apiKey={apiKey} />}
+        {showFavs ? <Favorites setShowFavs={setShowFavs}/> : <Weather data={chosenCityData} apiKey={apiKey} />}
 
       </Container>
 
