@@ -24,7 +24,7 @@ export default function Favorites(props) {
                             <FavCard setShowFavs={props.setShowFavs} name={city}/>
                         </Col>
                     )
-                })};
+                })}
 
             </Row>
         </Container>
